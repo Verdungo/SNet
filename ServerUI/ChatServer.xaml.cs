@@ -25,6 +25,7 @@ namespace ServerUI
 
             _listenSocket.OnRecieve += ListenSocket_OnRecieve;
             _listenSocket.OnClientConnect += ListenSocket_OnClientConnect;
+            _listenSocket.OnClientDisconnect += ListenSocket_OnClientDisconnect;
 
             StartButton.IsEnabled = false;
         }
@@ -42,6 +43,14 @@ namespace ServerUI
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {
                 ChatListView.Items.Add(string.Format("Получено сообщение от {0}", sender));
+            }));
+        }
+
+        private void ListenSocket_OnClientDisconnect(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                ChatListView.Items.Add(string.Format("Client disconnected! {0}", sender));
             }));
         }
     }

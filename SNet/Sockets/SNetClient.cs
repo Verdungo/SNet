@@ -66,13 +66,22 @@ namespace SNet.Sockets
             }
             else
             {
-                // TODO: Handle disconnect
+                if (OnDisconnect != null)
+                {
+                    OnDisconnect(this, EventArgs.Empty);
+                }
             }
         }
 
         public void Send(string message)
         {
-            _socket.Send(Encoding.UTF8.GetBytes(message));
+            byte[] sendBuf = Encoding.UTF8.GetBytes(message);
+            _socket.BeginSend(sendBuf, 0, sendBuf.Length, SocketFlags.None, SendCallback, _socket);
+        }
+
+        private void SendCallback(IAsyncResult result)
+        {
+            _socket.EndSend(result);
         }
     }
 }
