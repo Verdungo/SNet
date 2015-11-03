@@ -44,6 +44,7 @@ namespace ServerUI
             {
                 ChatListView.Items.Add(string.Format("Получено сообщение от {0}", sender));
             }));
+            (sender as SNetServer).SendToAllClients("MESSAGE!");
         }
 
         private void ListenSocket_OnClientDisconnect(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace SNet
 {
@@ -60,13 +61,13 @@ namespace SNet
                 int bufferSize = clientSocket.EndReceive(result);
                 byte[] packet = new byte[bufferSize];
                 Array.Copy(_buffer, packet, packet.Length);
-                if (OnRecieve != null)
-                {
-                    OnRecieve(clientSocket, EventArgs.Empty);
-                }
 
                 _buffer = new byte[1024];
                 clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
+                if (OnRecieve != null)
+                {
+                    OnRecieve(this, EventArgs.Empty);
+                }
             }
             catch (Exception)
             {
@@ -79,6 +80,21 @@ namespace SNet
                     OnClientDisconnect(this, EventArgs.Empty);
                 }
             }
+        }
+
+        public void SendToAllClients(string message)
+        {
+            byte[] sendBuf = Encoding.UTF8.GetBytes(message);
+            foreach (var client in _clients)
+            {
+                client.BeginSend(sendBuf, 0, sendBuf.Length, SocketFlags.None, SendCallback, client);
+            }
+        }
+
+        private void SendCallback(IAsyncResult result)
+        {
+            Socket clientSocket = result.AsyncState as Socket;
+            clientSocket.EndSend(result);
         }
     }
 }

@@ -44,7 +44,10 @@ namespace SNet.Sockets
             }
             else
             {
-                // TODO: Handle disconnect
+                if (OnDisconnect != null)
+                {
+                    OnDisconnect(this, EventArgs.Empty);
+                }
             }
         }
 
