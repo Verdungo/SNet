@@ -1,4 +1,5 @@
 ﻿using SNet;
+using System;
 using System.Windows;
 
 namespace ServerUI
@@ -23,11 +24,25 @@ namespace ServerUI
             _listenSocket.Accept();
 
             _listenSocket.OnRecieve += ListenSocket_OnRecieve;
+            _listenSocket.OnClientConnect += ListenSocket_OnClientConnect;
+
+            StartButton.IsEnabled = false;
+        }
+
+        private void ListenSocket_OnClientConnect(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                ChatListView.Items.Add(string.Format("Client connected! {0}", sender));
+            }));
         }
 
         private void ListenSocket_OnRecieve(object sender, System.EventArgs e)
         {
-            ChatListView.Items.Add(string.Format("Получено сообщение от {0}", sender));
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                ChatListView.Items.Add(string.Format("Получено сообщение от {0}", sender));
+            }));
         }
     }
 }

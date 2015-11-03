@@ -19,5 +19,11 @@ namespace ChatClient
             _sNetClient = new SNetClient();
             _sNetClient.Connect("127.0.0.1", 50001);
         }
+
+        private void SendButton_Click(object sender, RoutedEventArgs e)
+        {
+            _sNetClient.Send(Message.Text);
+            Message.Text = "";
+        }
     }
 }

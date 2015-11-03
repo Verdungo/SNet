@@ -10,6 +10,11 @@ namespace SNet.Sockets
         private Socket _socket;
         byte[] _buffer;
 
+        public event EventHandler OnConnect;
+        public event EventHandler OnDisconnect;
+        public event EventHandler OnSend;
+        public event EventHandler OnRecieve;
+
         public SNetClient()
         {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -23,7 +28,6 @@ namespace SNet.Sockets
             IPAddress ipAddr = ipHost.AddressList[0];
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, 11000);
             */
-
             _socket.BeginConnect(new IPEndPoint(IPAddress.Parse(host), port), ConnectCallback, null);
         }
 
@@ -33,9 +37,10 @@ namespace SNet.Sockets
             {
                 _buffer = new byte[1024];
                 _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
-
-                //debug
-                _socket.Send(Encoding.UTF8.GetBytes("Hello, Net!"));
+                if (OnConnect != null)
+                {
+                    OnConnect(this, EventArgs.Empty);
+                } 
             }
             else
             {
@@ -50,6 +55,11 @@ namespace SNet.Sockets
                 int bufferSize = _socket.EndReceive(result);
                 byte[] packet = new byte[bufferSize];
                 Array.Copy(_buffer, packet, packet.Length);
+                if (OnRecieve != null) 
+                {
+                    // TODO: EventArgs - create my class
+                    OnRecieve(this, EventArgs.Empty);
+                }
 
                 _buffer = new byte[1024];
                 _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
@@ -58,6 +68,11 @@ namespace SNet.Sockets
             {
                 // TODO: Handle disconnect
             }
+        }
+
+        public void Send(string message)
+        {
+            _socket.Send(Encoding.UTF8.GetBytes(message));
         }
     }
 }

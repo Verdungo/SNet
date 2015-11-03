@@ -19,6 +19,6 @@
         <Button x:Name="ConnectButton" Grid.Column="0" Grid.Row="0" Content="Connect" Click="ConnectButton_Click"></Button>
         <ListView x:Name="ChatListView" Grid.Column="0" Grid.Row="1"></ListView>
         <TextBox x:Name="Message" Grid.Column="0" Grid.Row="2"></TextBox>
-        <Button x:Name="SendButton" Grid.Column="1" Grid.Row="2" Content="Send"></Button>
+        <Button x:Name="SendButton" Grid.Column="1" Grid.Row="2" Content="Send" Click="SendButton_Click"></Button>
     </Grid>
 </Window>

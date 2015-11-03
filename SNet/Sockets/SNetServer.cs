@@ -9,6 +9,10 @@ namespace SNet
         private Socket _socket;
         private byte[] _buffer;
 
+        public event EventHandler OnRecieve;
+        public event EventHandler OnClientConnect;
+        public event EventHandler OnClientDisconnect;
+
         public SNetServer()
         {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -34,23 +38,34 @@ namespace SNet
             Socket clientSocket = _socket.EndAccept(result);
             _buffer = new byte[1024];
             clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
+            if (OnClientConnect != null)
+            {
+                // TODO: EventArgs - my Args class
+                OnClientConnect(this, EventArgs.Empty);
+            }
         }
 
         private void RecieveCallback(IAsyncResult result)
         {
             Socket clientSocket = result.AsyncState as Socket;
-            int bufferSize = clientSocket.EndReceive(result);
-            byte[] packet = new byte[bufferSize];
-            Array.Copy(_buffer, packet, packet.Length);
-            if (OnRecieve != null)
+
+            if (clientSocket.Connected)
             {
-                OnRecieve(clientSocket, EventArgs.Empty);
+                int bufferSize = clientSocket.EndReceive(result);
+                byte[] packet = new byte[bufferSize];
+                Array.Copy(_buffer, packet, packet.Length);
+                if (OnRecieve != null)
+                {
+                    OnRecieve(clientSocket, EventArgs.Empty);
+                }
+
+                _buffer = new byte[1024];
+                clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
             }
-
-            _buffer = new byte[1024];
-            clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
+            else
+            {
+                // TODO: Handle disconnect
+            }
         }
-
-        public event EventHandler OnRecieve;
     }
 }
