@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace SNet.Sockets
 {
@@ -28,18 +29,35 @@ namespace SNet.Sockets
 
         private void ConnectCallback(IAsyncResult result)
         {
-            _buffer = new byte[1024];
-            _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
+            if (_socket.Connected)
+            {
+                _buffer = new byte[1024];
+                _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
+
+                //debug
+                _socket.Send(Encoding.UTF8.GetBytes("Hello, Net!"));
+            }
+            else
+            {
+                // TODO: Handle disconnect
+            }
         }
 
         private void RecieveCallback(IAsyncResult result)
         {
-            int bufferSize = _socket.EndReceive(result);
-            byte[] packet = new byte[bufferSize];
-            Array.Copy(_buffer, packet, packet.Length);
+            if (_socket.Connected)
+            {
+                int bufferSize = _socket.EndReceive(result);
+                byte[] packet = new byte[bufferSize];
+                Array.Copy(_buffer, packet, packet.Length);
 
-            _buffer = new byte[1024];
-            _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
+                _buffer = new byte[1024];
+                _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
+            }
+            else
+            {
+                // TODO: Handle disconnect
+            }
         }
     }
 }

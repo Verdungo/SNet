@@ -42,9 +42,15 @@ namespace SNet
             int bufferSize = clientSocket.EndReceive(result);
             byte[] packet = new byte[bufferSize];
             Array.Copy(_buffer, packet, packet.Length);
+            if (OnRecieve != null)
+            {
+                OnRecieve(clientSocket, EventArgs.Empty);
+            }
 
             _buffer = new byte[1024];
             clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
         }
+
+        public event EventHandler OnRecieve;
     }
 }

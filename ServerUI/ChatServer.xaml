@@ -12,7 +12,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
             <Button x:Name="StartButton" Content="Open" Grid.Row="0" Click="StartButton_Click"/>
-            <ListView x:Name="ChatListBox" Grid.Row="1">
+            <ListView x:Name="ChatListView" Grid.Row="1">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel VerticalAlignment="Bottom"/>
