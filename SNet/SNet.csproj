@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sockets\SNetClient.cs" />
     <Compile Include="Sockets\SNetServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
