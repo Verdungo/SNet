@@ -4,12 +4,12 @@ using System.Net.Sockets;
 
 namespace SNet
 {
-    public class SnetServer
+    public class SNetServer
     {
         private Socket _socket;
         private byte[] _buffer;
 
-        public SnetServer()
+        public SNetServer()
         {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
