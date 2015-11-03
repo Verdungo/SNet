@@ -1,5 +1,8 @@
 ﻿using SNet;
+using SNet.Messages;
+using SNet.Sockets;
 using System;
+using System.Text;
 using System.Windows;
 
 namespace ServerUI
@@ -30,7 +33,7 @@ namespace ServerUI
             StartButton.IsEnabled = false;
         }
 
-        private void ListenSocket_OnClientConnect(object sender, EventArgs e)
+        private void ListenSocket_OnClientConnect(object sender, SocketEventArgs e)
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {
@@ -38,16 +41,24 @@ namespace ServerUI
             }));
         }
 
-        private void ListenSocket_OnRecieve(object sender, System.EventArgs e)
+        private void ListenSocket_OnRecieve(object sender, SocketEventArgs e)
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {
-                ChatListView.Items.Add(string.Format("Получено сообщение от {0}", sender));
+                switch (e.Message.Type)
+                {
+                    case MessageType.MessageText:
+                        ChatListView.Items.Add(string.Format("{0}", e.Message.Text));
+                        break;
+                    default:
+                        break;
+                }
+
+                (sender as SNetServer).SendToAllClients(e.Message.Data);
             }));
-            (sender as SNetServer).SendToAllClients("MESSAGE!");
         }
 
-        private void ListenSocket_OnClientDisconnect(object sender, EventArgs e)
+        private void ListenSocket_OnClientDisconnect(object sender, SocketEventArgs e)
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {

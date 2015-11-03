@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="ApplicationName">AndroidClient</string>
+  <string name="ConnectButtonText">Connect</string>
+  <string name="SendButtonText">Send</string>
+</resources>

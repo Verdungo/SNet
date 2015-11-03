@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
-namespace SNet
+namespace SNet.Sockets
 {
     public class SNetServer
     {
@@ -12,9 +11,9 @@ namespace SNet
         private List<Socket> _clients;
         private byte[] _buffer;
 
-        public event EventHandler OnRecieve;
-        public event EventHandler OnClientConnect;
-        public event EventHandler OnClientDisconnect;
+        public event SocketEventHandler OnRecieve;
+        public event SocketEventHandler OnClientConnect;
+        public event SocketEventHandler OnClientDisconnect;
 
         public SNetServer()
         {
@@ -46,8 +45,7 @@ namespace SNet
             clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
             if (OnClientConnect != null)
             {
-                // TODO: EventArgs - my Args class
-                OnClientConnect(this, EventArgs.Empty);
+                OnClientConnect(this, SocketEventArgs.Empty);
             }
             Accept();
         }
@@ -61,13 +59,13 @@ namespace SNet
                 int bufferSize = clientSocket.EndReceive(result);
                 byte[] packet = new byte[bufferSize];
                 Array.Copy(_buffer, packet, packet.Length);
-
-                _buffer = new byte[1024];
-                clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
                 if (OnRecieve != null)
                 {
-                    OnRecieve(this, EventArgs.Empty);
+                    OnRecieve(this, new SocketEventArgs(packet));
                 }
+                _buffer = new byte[1024];
+                clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
+
             }
             catch (Exception)
             {
@@ -77,14 +75,13 @@ namespace SNet
 
                 if (OnClientDisconnect != null)
                 {
-                    OnClientDisconnect(this, EventArgs.Empty);
+                    OnClientDisconnect(this, SocketEventArgs.Empty);
                 }
             }
         }
 
-        public void SendToAllClients(string message)
+        public void SendToAllClients(byte[] sendBuf)
         {
-            byte[] sendBuf = Encoding.UTF8.GetBytes(message);
             foreach (var client in _clients)
             {
                 client.BeginSend(sendBuf, 0, sendBuf.Length, SocketFlags.None, SendCallback, client);

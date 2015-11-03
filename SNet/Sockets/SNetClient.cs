@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace SNet.Sockets
 {
@@ -10,10 +9,10 @@ namespace SNet.Sockets
         private Socket _socket;
         byte[] _buffer;
 
-        public event EventHandler OnConnect;
-        public event EventHandler OnDisconnect;
-        public event EventHandler OnSend;
-        public event EventHandler OnRecieve;
+        public event SocketEventHandler OnConnect;
+        public event SocketEventHandler OnDisconnect;
+        public event SocketEventHandler OnSend;
+        public event SocketEventHandler OnRecieve;
 
         public SNetClient()
         {
@@ -39,21 +38,23 @@ namespace SNet.Sockets
                 _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
                 if (OnConnect != null)
                 {
-                    OnConnect(this, EventArgs.Empty);
+                    OnConnect(this, new SocketEventArgs(_buffer));
                 } 
             }
             else
             {
+                _socket.Close();
+                _socket.Dispose();
                 if (OnDisconnect != null)
                 {
-                    OnDisconnect(this, EventArgs.Empty);
+                    OnDisconnect(this, SocketEventArgs.Empty);
                 }
             }
         }
 
         private void RecieveCallback(IAsyncResult result)
         {
-            if (_socket.Connected)
+            try
             {
                 int bufferSize = _socket.EndReceive(result);
                 byte[] packet = new byte[bufferSize];
@@ -61,25 +62,26 @@ namespace SNet.Sockets
                 if (OnRecieve != null) 
                 {
                     // TODO: EventArgs - create my class
-                    OnRecieve(this, EventArgs.Empty);
+                    OnRecieve(this, new SocketEventArgs(packet));
                 }
 
                 _buffer = new byte[1024];
                 _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
             }
-            else
+            catch (Exception)
             {
+                _socket.Close();
+                _socket.Dispose();
                 if (OnDisconnect != null)
                 {
-                    OnDisconnect(this, EventArgs.Empty);
+                    OnDisconnect(this, SocketEventArgs.Empty);
                 }
             }
         }
 
-        public void Send(string message)
+        public void Send(byte[] sendBuf)
         {
-            byte[] sendBuf = Encoding.UTF8.GetBytes(message);
-            _socket.BeginSend(sendBuf, 0, sendBuf.Length, SocketFlags.None, SendCallback, _socket);
+            if (_socket.Connected) _socket.BeginSend(sendBuf, 0, sendBuf.Length, SocketFlags.None, SendCallback, _socket);
         }
 
         private void SendCallback(IAsyncResult result)

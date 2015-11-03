@@ -1,5 +1,7 @@
-﻿using SNet.Sockets;
+﻿using SNet.Messages;
+using SNet.Sockets;
 using System;
+using System.Text;
 using System.Windows;
 
 namespace ChatClient
@@ -25,26 +27,36 @@ namespace ChatClient
             ConnectButton.IsEnabled = false;
         }
 
-        private void SNetClient_OnDisconnect(object sender, EventArgs e)
+        private void SNetClient_OnDisconnect(object sender, SocketEventArgs e)
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
             {
                 ChatListView.Items.Add(string.Format("Server shuted down"));
+                _sNetClient = null;
+                ConnectButton.IsEnabled = true;
             }));
-            ConnectButton.IsEnabled = true;
         }
 
-        private void SNetClient_OnRecieve(object sender, System.EventArgs e)
+        private void SNetClient_OnRecieve(object sender, SocketEventArgs e)
         {
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                ChatListView.Items.Add(string.Format("Получено сообщение"));
-            }));
+                switch (e.Message.Type)
+                {
+                    case MessageType.MessageText:
+                        ChatListView.Items.Add(string.Format("{0}", e.Message.Text));      
+                        break;
+                    default:
+                        break;
+                }
+            });
         }
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-            _sNetClient.Send(Message.Text);
+            MessageText msg = new MessageText(Message.Text);
+
+            _sNetClient?.Send(msg.Data);
             Message.Text = "";
         }
     }

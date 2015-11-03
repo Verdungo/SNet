@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerUI", "ServerUI\Server
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatClient", "ChatClient\ChatClient.csproj", "{00AC16D6-5D8E-4565-82BC-0C417AF0B5ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidClient", "AndroidClient\AndroidClient.csproj", "{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{00AC16D6-5D8E-4565-82BC-0C417AF0B5ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00AC16D6-5D8E-4565-82BC-0C417AF0B5ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00AC16D6-5D8E-4565-82BC-0C417AF0B5ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
