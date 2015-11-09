@@ -26,6 +26,8 @@ namespace AndroidClient
 		
 		public static void UpdateIdValues()
 		{
+			global::AndroidSockets.Resource.String.ApplicationName = global::AndroidClient.Resource.String.ApplicationName;
+			global::AndroidSockets.Resource.String.Hello = global::AndroidClient.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -44,8 +46,8 @@ namespace AndroidClient
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f040000
-			public const int White = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int White = 2131034112;
 			
 			static Color()
 			{
@@ -117,14 +119,17 @@ namespace AndroidClient
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int ApplicationName = 2131034112;
+			// aapt resource value: 0x7f040001
+			public const int ApplicationName = 2130968577;
 			
-			// aapt resource value: 0x7f050001
-			public const int ConnectButtonText = 2131034113;
+			// aapt resource value: 0x7f040002
+			public const int ConnectButtonText = 2130968578;
 			
-			// aapt resource value: 0x7f050002
-			public const int SendButtonText = 2131034114;
+			// aapt resource value: 0x7f040000
+			public const int Hello = 2130968576;
+			
+			// aapt resource value: 0x7f040003
+			public const int SendButtonText = 2130968579;
 			
 			static String()
 			{

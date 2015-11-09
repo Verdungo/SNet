@@ -44,7 +44,7 @@ namespace ChatClient
                 switch (e.Message.Type)
                 {
                     case MessageType.MessageText:
-                        ChatListView.Items.Add(string.Format("{0}", e.Message.Text));      
+                        ChatListView.Items.Add(string.Format("{0}", e.Message.Body));      
                         break;
                     default:
                         break;
@@ -54,9 +54,9 @@ namespace ChatClient
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageText msg = new MessageText(Message.Text);
+            TextMessage msg = new TextMessage(Message.Text);
 
-            _sNetClient?.Send(msg.Data);
+            _sNetClient?.Send(msg.Buffer);
             Message.Text = "";
         }
     }

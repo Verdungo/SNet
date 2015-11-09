@@ -1,5 +1,4 @@
-﻿using SNet;
-using SNet.Messages;
+﻿using SNet.Messages;
 using SNet.Sockets;
 using System;
 using System.Text;
@@ -48,13 +47,13 @@ namespace ServerUI
                 switch (e.Message.Type)
                 {
                     case MessageType.MessageText:
-                        ChatListView.Items.Add(string.Format("{0}", e.Message.Text));
+                        ChatListView.Items.Add(string.Format("{0}", e.Message.Body));
                         break;
                     default:
                         break;
                 }
 
-                (sender as SNetServer).SendToAllClients(e.Message.Data);
+                (sender as SNetServer).SendToAllClients(e.Message.Buffer);
             }));
         }
 

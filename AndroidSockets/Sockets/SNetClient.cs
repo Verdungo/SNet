@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace SNet.Sockets
+namespace AndroidSockets.Sockets
 {
     /// <summary>
     /// Клиент TCP
@@ -16,7 +16,7 @@ namespace SNet.Sockets
         /// Событие при подключении
         /// </summary>
         public event SocketEventHandler OnConnect;
-        
+
         /// <summary>
         /// Событие при отключении
         /// </summary>
@@ -53,15 +53,7 @@ namespace SNet.Sockets
             IPAddress ipAddr = ipHost.AddressList[0];
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, 11000);
             */
-            try
-            {
-                _socket.BeginConnect(new IPEndPoint(IPAddress.Parse(host), port), ConnectCallback, null);
-            }
-            catch (SocketException ex)
-            {
-
-            }
-            
+            _socket.BeginConnect(new IPEndPoint(IPAddress.Parse(host), port), ConnectCallback, null);
         }
 
         private void ConnectCallback(IAsyncResult result)
@@ -69,11 +61,11 @@ namespace SNet.Sockets
             if (_socket.Connected)
             {
                 //_buffer = new byte[1024];
-                _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(RecieveCallback), null);
+                _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
                 if (OnConnect != null)
                 {
                     OnConnect(this, SocketEventArgs.Empty);
-                } 
+                }
             }
             else
             {
@@ -93,14 +85,13 @@ namespace SNet.Sockets
                 int bufferSize = _socket.EndReceive(result);
                 byte[] packet = new byte[bufferSize];
                 Buffer.BlockCopy(_buffer, 0, packet, 0, bufferSize);
-                //Array.Copy(_buffer, packet, packet.Length);
-                if (OnRecieve != null) 
+                if (OnRecieve != null)
                 {
                     OnRecieve(this, new SocketEventArgs(packet));
                 }
 
                 //_buffer = new byte[1024];
-                _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(RecieveCallback), null);
+                _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, null);
             }
             catch (Exception)
             {
@@ -119,10 +110,7 @@ namespace SNet.Sockets
         /// <param name="sendBuf">Буфер сообщения</param>
         public void Send(byte[] sendBuf)
         {
-            if (_socket.Connected)
-            {
-                _socket.BeginSend(sendBuf, 0, sendBuf.Length, SocketFlags.None, new AsyncCallback(SendCallback), _socket);
-            }
+            if (_socket.Connected) _socket.BeginSend(sendBuf, 0, sendBuf.Length, SocketFlags.None, SendCallback, _socket);
         }
 
         private void SendCallback(IAsyncResult result)

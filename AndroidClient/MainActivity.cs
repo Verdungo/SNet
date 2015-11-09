@@ -3,8 +3,8 @@ using Android.App;
 using Android.Widget;
 using Android.OS;
 using System.Collections.Generic;
-using SNet.Sockets;
-using SNet.Messages;
+using AndroidSockets.Sockets;
+using AndroidSockets.Messages;
 
 namespace AndroidClient
 {
@@ -16,7 +16,6 @@ namespace AndroidClient
         private Button _sendButton;
         private EditText _message;
         private ListView _chatListView;
-        //private List<string> _items;
         ArrayAdapter<string> _adapter;
 
         protected override void OnCreate(Bundle bundle)
@@ -28,8 +27,6 @@ namespace AndroidClient
             _chatListView = FindViewById<ListView>(Resource.Id.ChatListView);
             _message = FindViewById<EditText>(Resource.Id.Message);
             _sendButton = FindViewById<Button>(Resource.Id.SendButton);
-
-            //_items = new List<string>();
 
             _adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.TestListItem, new List<string>());
 
@@ -46,13 +43,6 @@ namespace AndroidClient
                 _adapter.Add("Disconnected from server!");
                 _adapter.NotifyDataSetChanged();
             }, this);
-
-            //Application.Current.Dispatcher.Invoke((Action)(() =>
-            //{
-            //    ChatListView.Items.Add(string.Format("Server shuted down"));
-            //    _sNetClient = null;
-            //    ConnectButton.IsEnabled = true;
-            //}));
         }
 
         private void SNetClient_OnRecieve(object o, SocketEventArgs e)
@@ -62,33 +52,22 @@ namespace AndroidClient
                 switch (e.Message.Type)
                 {
                     case MessageType.MessageText:
-                        _adapter.Add(String.Format("{0}", e.Message.Text));
+                        _adapter.Add(String.Format("{0}", e.Message.Body));
                         _adapter.NotifyDataSetChanged();
-                        //_chatListView.Text += (string.Format("{0}", e.Message.Text));
                         break;
                     default:
                         break;
                 }
             }, this);
-            //Application.Current.Dispatcher.Invoke(() =>
-            //{
-            //    switch (e.Message.Type)
-            //    {
-            //        case MessageType.MessageText:
-            //            ChatListView.Items.Add(string.Format("{0}", e.Message.Text));
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //});
+
         }
 
 
         private void SendButton_Click(object sender, EventArgs e)
         {
-            MessageText msg = new MessageText(_message.Text);
+            TextMessage msg = new TextMessage(_message.Text);
 
-            _sNetClient?.Send(msg.Data);
+            _sNetClient?.Send(msg.Buffer);
             _message.Text = "";
         }
 

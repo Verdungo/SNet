@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SNet.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\SNet.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Messages\MessageBase.cs" />
-    <Compile Include="Messages\MessageText.cs" />
+    <Compile Include="Messages\TextMessage.cs" />
     <Compile Include="Messages\MessageType.cs" />
     <Compile Include="Sockets\SNetClient.cs" />
     <Compile Include="Sockets\SNetServer.cs" />

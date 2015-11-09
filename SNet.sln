@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatClient", "ChatClient\Ch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidClient", "AndroidClient\AndroidClient.csproj", "{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidSockets", "AndroidSockets\AndroidSockets.csproj", "{6F47265C-9C74-4214-8F05-4A726E2D6E90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A54FE106-5B9D-4289-B0FF-C71D44DE81F1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6F47265C-9C74-4214-8F05-4A726E2D6E90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F47265C-9C74-4214-8F05-4A726E2D6E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F47265C-9C74-4214-8F05-4A726E2D6E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F47265C-9C74-4214-8F05-4A726E2D6E90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

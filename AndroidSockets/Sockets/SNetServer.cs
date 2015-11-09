@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
-namespace SNet.Sockets
+namespace AndroidSockets.Sockets
 {
     /// <summary>
     /// Сервер TCP
@@ -12,7 +12,7 @@ namespace SNet.Sockets
     {
         private Socket _socket;
         private List<Socket> _clients;
-        private byte[] _buffer =new byte[1024];
+        private byte[] _buffer = new byte[1024];
 
         /// <summary>
         /// Событие при получении сообщения
@@ -61,7 +61,7 @@ namespace SNet.Sockets
         /// </summary>
         public void Accept()
         {
-            _socket.BeginAccept(new AsyncCallback(AcceptCallback), null);
+            _socket.BeginAccept(AcceptCallback, null);
         }
 
         private void AcceptCallback(IAsyncResult result)
@@ -70,7 +70,7 @@ namespace SNet.Sockets
             _clients.Add(clientSocket);
 
             //_buffer = new byte[1024];
-            clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(RecieveCallback), clientSocket);
+            clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
             if (OnClientConnect != null)
             {
                 OnClientConnect(this, SocketEventArgs.Empty);
@@ -87,13 +87,13 @@ namespace SNet.Sockets
                 int bufferSize = clientSocket.EndReceive(result);
                 byte[] packet = new byte[bufferSize];
                 Buffer.BlockCopy(_buffer, 0, packet, 0, bufferSize);
-                //Array.Copy(_buffer, packet, packet.Length);
                 if (OnRecieve != null)
                 {
                     OnRecieve(this, new SocketEventArgs(packet));
                 }
                 //_buffer = new byte[1024];
-                clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(RecieveCallback), clientSocket);
+                clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, RecieveCallback, clientSocket);
+
             }
             catch (Exception)
             {
@@ -116,7 +116,7 @@ namespace SNet.Sockets
         {
             foreach (var client in _clients)
             {
-                client.BeginSend(sendBuf, 0, sendBuf.Length, SocketFlags.None, new AsyncCallback(SendCallback), client);
+                client.BeginSend(sendBuf, 0, sendBuf.Length, SocketFlags.None, SendCallback, client);
             }
         }
 

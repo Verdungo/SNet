@@ -1,7 +1,7 @@
-﻿using SNet.Messages;
+﻿using AndroidSockets.Messages;
 using System;
 
-namespace SNet.Sockets
+namespace AndroidSockets.Sockets
 {
     /// <summary>
     /// Аргументы события сокетаы
