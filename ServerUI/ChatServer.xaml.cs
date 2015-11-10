@@ -34,27 +34,28 @@ namespace ServerUI
 
         private void ListenSocket_OnClientConnect(object sender, SocketEventArgs e)
         {
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 ChatListView.Items.Add(string.Format("Client connected! {0}", sender));
-            }));
+            });
         }
 
         private void ListenSocket_OnRecieve(object sender, SocketEventArgs e)
         {
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            TextMessage inMessage = (TextMessage)e.Message;
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 switch (e.Message.Type)
                 {
                     case MessageType.MessageText:
-                        ChatListView.Items.Add(string.Format("{0}", e.Message.Body));
+                        ChatListView.Items.Add(string.Format("{0}", (e.Message as TextMessage).Text));
                         break;
                     default:
                         break;
                 }
 
                 (sender as SNetServer).SendToAllClients(e.Message.Buffer);
-            }));
+            });
         }
 
         private void ListenSocket_OnClientDisconnect(object sender, SocketEventArgs e)

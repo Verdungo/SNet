@@ -19,7 +19,7 @@ namespace SNet.Messages
         /// <summary>
         /// Тело сообщения
         /// </summary>
-        public string Body => Encoding.UTF8.GetString(Buffer, 4, Buffer.Length - 4);
+        public byte[] Body => Buffer.Skip(4).ToArray();
 
         /// <summary>
         /// Длина сообщения
@@ -55,5 +55,10 @@ namespace SNet.Messages
         {
             Buffer = buffer;
         }
+
+        /// <summary>
+        /// Текст сообщения
+        /// </summary>
+        public virtual String Text => String.Empty;
     }
 }

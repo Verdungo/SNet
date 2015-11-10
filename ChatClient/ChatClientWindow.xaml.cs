@@ -44,7 +44,7 @@ namespace ChatClient
                 switch (e.Message.Type)
                 {
                     case MessageType.MessageText:
-                        ChatListView.Items.Add(string.Format("{0}", e.Message.Body));      
+                        ChatListView.Items.Add(string.Format("{0}", (e.Message as TextMessage).Text));      
                         break;
                     default:
                         break;
