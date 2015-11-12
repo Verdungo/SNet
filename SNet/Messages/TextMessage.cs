@@ -11,16 +11,39 @@ namespace SNet.Messages
         /// <summary>
         /// Текст сообщения
         /// </summary>
-        public override string Text => Encoding.UTF8.GetString(Body);
+        public string Text => Encoding.UTF8.GetString(Body);
+
+        /// <summary>
+        /// Текстовое сообщение
+        /// </summary>
+        public TextMessage()
+            : base(4, MessageType.TextMessage)
+        {
+
+        }
+
+        /// <summary>
+        /// Текстовое сообщение
+        /// </summary>
+        public TextMessage(byte[] buffer)
+            : base(buffer)
+        {
+
+        }
 
         /// <summary>
         /// Текстовое сообщение
         /// </summary>
         public TextMessage(string msg) 
-            : base((ushort)(4 + Encoding.UTF8.GetByteCount(msg)), MessageType.MessageText)
+            : base((ushort)(4 + Encoding.UTF8.GetByteCount(msg)), MessageType.TextMessage)
         {
             byte[] msgBuf = Encoding.UTF8.GetBytes(msg); 
             System.Buffer.BlockCopy(msgBuf, 0, Buffer, 4, msgBuf.Length);
+        }
+
+        public static TextMessage FromMessageBase(MessageBase messageBase)
+        {
+            return new TextMessage(messageBase.Buffer);
         }
     }
 }

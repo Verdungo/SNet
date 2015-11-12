@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidSockets", "AndroidSo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPBroadcastTest", "UDPBroadcastTest\UDPBroadcastTest.csproj", "{61E656BA-94BE-45D9-B8ED-FDF452196611}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cards", "Cards\Cards.csproj", "{FCBF59EA-22E8-4E2E-9C3E-E68E78EE75B6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,10 +47,6 @@ Global
 		{61E656BA-94BE-45D9-B8ED-FDF452196611}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61E656BA-94BE-45D9-B8ED-FDF452196611}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61E656BA-94BE-45D9-B8ED-FDF452196611}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCBF59EA-22E8-4E2E-9C3E-E68E78EE75B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCBF59EA-22E8-4E2E-9C3E-E68E78EE75B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCBF59EA-22E8-4E2E-9C3E-E68E78EE75B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCBF59EA-22E8-4E2E-9C3E-E68E78EE75B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

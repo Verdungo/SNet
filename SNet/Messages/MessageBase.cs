@@ -55,10 +55,5 @@ namespace SNet.Messages
         {
             Buffer = buffer;
         }
-
-        /// <summary>
-        /// Текст сообщения
-        /// </summary>
-        public virtual String Text => String.Empty;
     }
 }

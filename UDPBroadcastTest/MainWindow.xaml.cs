@@ -24,8 +24,9 @@ namespace UDPBroadcastTest
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Socket _listener;
-        private Socket _broadcaster;
+        //private Socket _listener;
+        //private Socket _broadcaster;
+        private Socket _udpSocket;
         private bool _connected = false;
         byte[] _buffer = new byte[1024];
         IPEndPoint _ipep = new IPEndPoint(IPAddress.Any, 50001);
@@ -53,10 +54,10 @@ namespace UDPBroadcastTest
             // TODO: а нам это надо?
             if (!_connected)
             {
-                _listener = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                _listener.Bind(_ipep);
+                _udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                _udpSocket.Bind(_ipep);
                 EndPoint ep = (EndPoint)_ipep;
-                _listener.BeginReceiveFrom(_buffer, 0, _buffer.Length, SocketFlags.None, ref ep, new AsyncCallback(ListenerRecieveCallback), _listener);
+                _udpSocket.BeginReceiveFrom(_buffer, 0, _buffer.Length, SocketFlags.None, ref ep, new AsyncCallback(ListenerRecieveCallback), _udpSocket);
                 LogMessage("Waiting for clients...");
             }
         }
@@ -64,14 +65,14 @@ namespace UDPBroadcastTest
         private void ListenerRecieveCallback(IAsyncResult result)
         {
             EndPoint ep = _ipep;
-            int length = _listener.EndReceiveFrom(result, ref ep);
+            int length = _udpSocket.EndReceiveFrom(result, ref ep);
             byte[] sendBuffer = Encoding.UTF8.GetBytes(Dns.GetHostName());
 
             LogMessage("Recieved: \"{0}\" from {1}", Encoding.UTF8.GetString(_buffer.Take(length).ToArray()), ep.ToString());
 
-            _listener.BeginSendTo(sendBuffer, 0, sendBuffer.Length, SocketFlags.None, ep, new AsyncCallback(ListenerSendCallback), _listener);
+            _udpSocket.BeginSendTo(sendBuffer, 0, sendBuffer.Length, SocketFlags.None, ep, new AsyncCallback(ListenerSendCallback), _udpSocket);
             LogMessage("Sending from server message \"{0}\" to {1}", Encoding.UTF8.GetString(sendBuffer), ep.ToString());
-            _listener.BeginReceiveFrom(_buffer, 0, _buffer.Length, SocketFlags.None, ref ep, new AsyncCallback(ListenerRecieveCallback), _listener);
+            _udpSocket.BeginReceiveFrom(_buffer, 0, _buffer.Length, SocketFlags.None, ref ep, new AsyncCallback(ListenerRecieveCallback), _udpSocket);
         }
 
         private void ListenerSendCallback(IAsyncResult ar)
@@ -83,21 +84,21 @@ namespace UDPBroadcastTest
         private void TryFindServer()
         {
 
-            _broadcaster = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            _broadcaster.EnableBroadcast = true;
+            _udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            _udpSocket.EnableBroadcast = true;
             byte[] packet = Encoding.UTF8.GetBytes("1234");
             LogMessage("Broadcast string \"1234\"");
 
-            _broadcaster.SendTo(packet, new IPEndPoint(IPAddress.Broadcast, 50001));
+            _udpSocket.SendTo(packet, new IPEndPoint(IPAddress.Broadcast, 50001));
 
             LogMessage("Waiting for broadcast callback...");
-            _broadcaster.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(BroadcasterRecieveCallback), _broadcaster);
+            _udpSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(BroadcasterRecieveCallback), _udpSocket);
             
         }
 
         private void BroadcasterRecieveCallback(IAsyncResult result)
         {
-            int recieveLength = _broadcaster.EndReceive(result);
+            int recieveLength = _udpSocket.EndReceive(result);
             byte[] data = new byte[recieveLength];
             Buffer.BlockCopy(_buffer, 0, data, 0, recieveLength);
             LogMessage("Broadcater recieved callback: \"{0}\"", Encoding.UTF8.GetString(data));

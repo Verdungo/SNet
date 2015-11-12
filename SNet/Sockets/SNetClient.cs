@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
@@ -48,14 +49,14 @@ namespace SNet.Sockets
         public void Connect(string host, int port)
         {
             // TODO: вместо IPV4 в явном виде использовать конструкцию ниже
-            /*
+            
             IPHostEntry ipHost = Dns.GetHostEntry(host);
-            IPAddress ipAddr = ipHost.AddressList[0];
-            IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, 11000);
-            */
+            IPAddress ipAddr = Array.Find(ipHost.AddressList, ip => ip.AddressFamily == AddressFamily.InterNetwork);
+            IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, 50001);
+            
             try
             {
-                _socket.BeginConnect(new IPEndPoint(IPAddress.Parse(host), port), ConnectCallback, null);
+                _socket.BeginConnect(ipEndPoint, ConnectCallback, null);
             }
             catch (SocketException ex)
             {
@@ -68,7 +69,6 @@ namespace SNet.Sockets
         {
             if (_socket.Connected)
             {
-                //_buffer = new byte[1024];
                 _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(RecieveCallback), null);
                 if (OnConnect != null)
                 {

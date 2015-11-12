@@ -47,7 +47,7 @@ namespace ServerUI
             {
                 switch (e.Message.Type)
                 {
-                    case MessageType.MessageText:
+                    case MessageType.TextMessage:
                         ChatListView.Items.Add(string.Format("{0}", (e.Message as TextMessage).Text));
                         break;
                     default:

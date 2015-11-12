@@ -5,20 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChatClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Button x:Name="ConnectButton" Grid.Column="0" Grid.Row="0" Content="Connect" Click="ConnectButton_Click"></Button>
-        <ListView x:Name="ChatListView" Grid.Column="0" Grid.Row="1"></ListView>
-        <TextBox x:Name="Message" Grid.Column="0" Grid.Row="2"></TextBox>
-        <Button x:Name="SendButton" Grid.Column="1" Grid.Row="2" Content="Send" Click="SendButton_Click"></Button>
+        <ListView x:Name="ChatListView" Grid.Column="0" Grid.Row="0"></ListView>
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0">
+            <TextBlock Text="Nickname:" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+            <TextBox x:Name="Nicknamefield" Text="{Binding Nickname}" HorizontalAlignment="Stretch" TextAlignment="Center" MaxLines="1" MaxLength="15"/>
+        </StackPanel>
+        <TextBox x:Name="Message" Grid.Column="0" Grid.Row="1" KeyDown="Message_KeyDown"></TextBox>
+        <Button x:Name="SendButton" Grid.Column="1" Grid.Row="1" Content="Send" Click="SendButton_Click"></Button>
     </Grid>
 </Window>

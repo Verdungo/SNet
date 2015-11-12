@@ -8,7 +8,7 @@
         /// <summary>
         /// Текстовое сообщение
         /// </summary>
-        MessageText = 1,
+        TextMessage = 1,
 
 
     }
