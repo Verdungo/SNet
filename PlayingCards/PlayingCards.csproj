@@ -40,10 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Card\Card.cs" />
-    <Compile Include="Card\Rank.cs" />
+    <Compile Include="Cards\Card.cs" />
+    <Compile Include="Cards\Rank.cs" />
+    <Compile Include="Deck\Deck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Card\Suit.cs" />
+    <Compile Include="Cards\Suit.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

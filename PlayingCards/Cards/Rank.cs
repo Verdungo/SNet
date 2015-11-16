@@ -1,5 +1,5 @@
 ﻿
-namespace PlayingCards.Card
+namespace PlayingCards.Cards
 {
     public enum Rank
     {

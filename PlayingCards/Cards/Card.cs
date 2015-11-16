@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PlayingCards.Card
+namespace PlayingCards.Cards
 {
     /// <summary>
     /// Игральная карта
@@ -46,16 +42,16 @@ namespace PlayingCards.Card
                 switch (Suit)
                 {
                     case Suit.Clubs:
-                        res += "♣";
+                        res += "c";// "♣";
                         break;
                     case Suit.Diamonds:
-                        res += "♦";
+                        res += "d";// "♦";
                         break;
                     case Suit.Hearts:
-                        res += "♥";
+                        res += "h";// "♥";
                         break;
                     case Suit.Spades:
-                        res += "♠";
+                        res += "s";// "♠";
                         break;
                     default:
                         res += "X";

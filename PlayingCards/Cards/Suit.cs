@@ -1,4 +1,4 @@
-﻿namespace PlayingCards.Card
+﻿namespace PlayingCards.Cards
 {
     public enum Suit
     {
