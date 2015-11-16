@@ -3,8 +3,8 @@ using Android.App;
 using Android.Widget;
 using Android.OS;
 using System.Collections.Generic;
-using AndroidSockets.Sockets;
-using AndroidSockets.Messages;
+using SNet.Sockets;
+using SNet.Messages;
 
 namespace AndroidClient
 {
@@ -51,7 +51,7 @@ namespace AndroidClient
             {
                 switch (e.Message.Type)
                 {
-                    case MessageType.MessageText:
+                    case MessageType.TextMessage:
                         _adapter.Add(String.Format("{0}", e.Message.Body));
                         _adapter.NotifyDataSetChanged();
                         break;

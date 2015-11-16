@@ -85,9 +85,9 @@
     <AndroidResource Include="Resources\values\Colors.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AndroidSockets\AndroidSockets.csproj">
-      <Project>{6f47265c-9c74-4214-8f05-4a726e2d6e90}</Project>
-      <Name>AndroidSockets</Name>
+    <ProjectReference Include="..\SNet\SNet.csproj">
+      <Project>{9c9603d8-6aba-4f2b-bb44-ecbeec0c7e26}</Project>
+      <Name>SNet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

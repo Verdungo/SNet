@@ -41,6 +41,11 @@ namespace SNet.Messages
             System.Buffer.BlockCopy(msgBuf, 0, Buffer, 4, msgBuf.Length);
         }
 
+        /// <summary>
+        /// Возвращает TextMessage основанный на MessageBase
+        /// </summary>
+        /// <param name="messageBase">Базовое сообщение</param>
+        /// <returns></returns>
         public static TextMessage FromMessageBase(MessageBase messageBase)
         {
             return new TextMessage(messageBase.Buffer);

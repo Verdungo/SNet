@@ -60,7 +60,7 @@ namespace SNet.Sockets
             }
             catch (SocketException ex)
             {
-
+                throw new SocketException(ex.ErrorCode);
             }
             
         }

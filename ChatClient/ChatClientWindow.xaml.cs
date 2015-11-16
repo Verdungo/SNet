@@ -27,8 +27,6 @@ namespace ChatClient
         private string _serverHostName = string.Empty;
         private string _role = string.Empty;
 
-
-
         public string Nickname
         {
             get { return (string)GetValue(NicknameProperty); }
@@ -52,7 +50,7 @@ namespace ChatClient
             TryFindServer();
 
             _awaitConnectionTimer = new DispatcherTimer();
-            _awaitConnectionTimer.Interval = new TimeSpan(0, 0, 3);
+            _awaitConnectionTimer.Interval = new TimeSpan(0, 0, 1);
             _awaitConnectionTimer.Tick += AwaitConnectionTimer_Tick;
             _awaitConnectionTimer.Start();
         }
@@ -136,7 +134,7 @@ namespace ChatClient
             switch (_role)
             {
                 case "Server":
-                    LogMessage("{0}", Message.Text);
+                    LogMessage(msg.Text);
                     _listenSocket.SendToAllClients(msg.Buffer);
                     break;
                 case "Client":
@@ -210,7 +208,7 @@ namespace ChatClient
 
         private void ListenSocket_OnClientConnect(object sender, SocketEventArgs e)
         {
-            LogMessage("Client connected! {0}", sender);
+            LogMessage("Client connected!");
         }
 
         private void ListenSocket_OnRecieve(object sender, SocketEventArgs e)
@@ -229,7 +227,7 @@ namespace ChatClient
 
         private void ListenSocket_OnClientDisconnect(object sender, SocketEventArgs e)
         {
-            LogMessage("Client disconnected! {0}", sender);
+            LogMessage("Client disconnected!");
         }
         #endregion
     }
